@@ -1,0 +1,15 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Ignore Media Content
+media/family_photos/*
+media/slow_art/*
+media/retro/*
+
+# Keep the 'media/trippy' folder but ignore if you put images in there
+# (We want to keep shader.frag because it is code)
+!media/trippy/shader.frag
+
+# Ignore system-specific stuff
+.DS_Store

@@ -1,0 +1,14 @@
+[Unit]
+Description=Display Controller
+After=graphical.target
+
+[Service]
+User=ppcpi
+WorkingDirectory=/home/ppcpi/display_controller
+Environment=DISPLAY=:0
+ExecStart=/usr/bin/python3 /home/ppcpi/display_controller/app.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=graphical.target
