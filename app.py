@@ -99,7 +99,7 @@ def kill_all():
 def run_mpv(path, is_playlist=False):
     kill_all()
     time.sleep(0.5)
-    cmd = f"mpv --fs --hwdec=auto --no-osd-bar --input-ipc-server={MPV_SOCKET} "
+    cmd = f"mpv --fs --vo=gpu --hwdec=auto --no-osd-bar --input-ipc-server={MPV_SOCKET} "
     if is_playlist: cmd += "--loop-playlist=inf --shuffle "
     else: cmd += "--loop "
     cmd += path
@@ -128,7 +128,7 @@ def upload_file():
 def photos():
     global CURRENT_MODE
     if CURRENT_MODE == 'photos':
-        os.system("export DISPLAY=:0 && xdotool key Right")
+        os.system("curl -s http://localhost:8080/api/notification/BACKGROUNDSLIDESHOW_NEXT")
         return "Skipped"
     kill_all()
     CURRENT_MODE = 'photos'
@@ -173,7 +173,7 @@ def dashboard():
     kill_all()
     CURRENT_MODE = 'dashboard'
     # Ensure --password-store=basic is set to avoid keyring popups
-    url = "https://play.grafana.org/d/000000012/grafana-play-home?orgId=1&kiosk"
+    url = "https://cybermap.kaspersky.com/en/widget/dynamic/dark"
     cmd = f"chromium --kiosk --noerrdialogs --disable-infobars --password-store=basic '{url}'"
     subprocess.Popen(cmd, shell=True, env=dict(os.environ, DISPLAY=":0"), preexec_fn=os.setsid)
     return "Started"

@@ -4,7 +4,16 @@ var config = {
     ipWhitelist: [], 
     language: "en",
     modules: [
-        {
+        	{
+        module: 'MMM-Remote-Control',
+        // Unsecured for localhost access (safe for this appliance)
+        config: {
+            customCommand: {},
+            showModuleApiMenu: true,
+            secureEndpoints: false,
+        	}
+    	},
+	{
             module: "MMM-BackgroundSlideshow",
             position: "fullscreen_below",
             config: {
@@ -13,7 +22,7 @@ var config = {
                 randomizeImageOrder: true,
                 slideshowSpeed: 900000, // 15 minutes
                 transitionSpeed: "1s",
-                backgroundSize: "cover"
+                backgroundSize: "contain"
             }
         }
     ]
