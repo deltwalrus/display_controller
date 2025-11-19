@@ -73,7 +73,7 @@ HTML_TEMPLATE = """
         <h4>Add New Photo</h4>
         <form action="/upload" method="post" enctype="multipart/form-data">
             <label class="custom-file-upload">
-                <input type="file" name="file" onchange="this.form.submit()">
+                <input type="file" name="file" multiple onchange="this.form.submit()">
                 📂 Select from Phone
             </label>
         </form>
@@ -114,16 +114,17 @@ def index(): return render_template_string(HTML_TEMPLATE)
 @app.route('/upload', methods=['POST'])
 def upload_file():
     if 'file' not in request.files: return redirect(request.url)
-    file = request.files['file']
-    if file.filename == '': return redirect(request.url)
-    if file and allowed_file(file.filename):
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        # Restart Photo mode if currently active to pick up new image? 
-        # Optional: MagicMirror usually auto-scans.
-        return redirect(url_for('index'))
+    
+    # getlist() allows us to handle multiple selections
+    files = request.files.getlist('file')
+    
+    for file in files:
+        if file.filename == '': continue
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            
     return redirect(url_for('index'))
-
 @app.route('/mode/photos')
 def photos():
     global CURRENT_MODE
